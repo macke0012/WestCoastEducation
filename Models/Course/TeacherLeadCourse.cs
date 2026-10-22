@@ -1,13 +1,11 @@
-using WestCoastEducation.Interfaces;
-using WestCoastEducation.Models.Person.Staff;
-
 namespace WestCoastEducation.Models.Course;
 
-public class TeacherLeadCourse : BaseCourse
+// A course a teacher is responsible for. Only the teacher's id is saved, so the teacher isn't copied into every course file.
+public abstract class TeacherLeadCourse : BaseCourse
 {
     public string? TeacherId { get; set; }
 
-    public TeacherLeadCourse(string? teacherId)
+    protected TeacherLeadCourse(string? teacherId)
     {
         TeacherId = teacherId;
     }

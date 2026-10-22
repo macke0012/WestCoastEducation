@@ -3,39 +3,26 @@ using WestCoastEducation.Models.Person.Staff;
 
 namespace WestCoastEducation.Services;
 
-public class StaffService : IService<PermanentStaff>
+public class StaffService(IStorageProvider db, TeacherService teacherService) : BaseService<PermanentStaff>(db)
 {
-    private IStorageProvider Db;
-    private List<Administrator> Administrators = [];
-
-    public StaffService(IStorageProvider _db)
-    {
-        Db = _db;
-        LoadAll();
-    }
-
     // Each staff type is saved in its own folder, so add new types here
-    public void LoadAll()
+    protected override List<PermanentStaff> Load() =>
+        [.. Db.GetAll<EducationLeader>(), .. Db.GetAll<Administrator>()];
+
+    protected override void LinkRelated(PermanentStaff staff)
     {
-        Administrators = Db.GetAll<Administrator>();
+        if (staff is EducationLeader leader)
+        {
+            leader.LoadTeachers(teacherService.GetAll());
+        }
     }
 
-    public void Create(PermanentStaff obj)
+    /// <summary>
+    /// Makes an education leader responsible for a teacher and saves it
+    /// </summary>
+    public void AssignTeacher(EducationLeader leader, Teacher teacher)
     {
-        Db.Save(obj);
-        LoadAll();
+        leader.AssignTeacher(teacher);
+        Update(leader);
     }
-
-    public void Delete(string id)
-    {
-        Db.Delete(id);
-        LoadAll();
-    }
-
-    public List<PermanentStaff> GetAll() => [.. Administrators];
-
-    public PermanentStaff GetSingle(string id) =>
-        GetAll().FirstOrDefault(s => s.Id == id) ?? throw new KeyNotFoundException($"Staff with id {id} not found");
-
-    public List<T> GetAll<T>() where T : PermanentStaff => GetAll().OfType<T>().ToList();
 }

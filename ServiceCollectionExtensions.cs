@@ -11,6 +11,7 @@ public static class ServiceCollectionExtensions
         collection.AddSingleton<IStorageProvider, JsonStorageService>();
         collection.AddSingleton<CourseService>();
         collection.AddSingleton<TeacherService>();
+        collection.AddSingleton<StudentService>();
         collection.AddSingleton<StaffService>();
         collection.AddSingleton<School>();
     }

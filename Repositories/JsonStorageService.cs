@@ -1,7 +1,9 @@
 using WestCoastEducation.Interfaces;
 
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Unicode;
 
 namespace WestCoastEducation.Repositories;
 
@@ -18,6 +20,8 @@ public class JsonStorageService : IStorageProvider
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         // Saves enums as text ("Remote") and can still read old number values
         Converters = { new JsonStringEnumConverter() },
+        // Keeps å, ä and ö readable in the files instead of å etc.
+        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
     };
 
 
