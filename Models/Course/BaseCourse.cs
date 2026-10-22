@@ -1,5 +1,11 @@
+using System.Text.Json.Serialization;
+
 namespace WestCoastEducation.Models.Course;
 
+// When courses are saved in a list (like inside a teacher's file), this makes the JSON remember
+// whether each course is a remote or a classroom course, so the right class is created when reading
+[JsonDerivedType(typeof(RemoteCourse), "remote")]
+[JsonDerivedType(typeof(ClassroomCourse), "classroom")]
 public abstract class BaseCourse : IStorageObject
 {
     public required string CourseNumber { get; set; }

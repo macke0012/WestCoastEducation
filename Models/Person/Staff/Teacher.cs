@@ -7,24 +7,22 @@ public class Teacher : Person
 {
     public string KnowledgeArea { get; set; } = "";
 
-    // Not saved in the teacher file. Each course saves its teacher's id instead (see README).
-    [JsonIgnore]
-    public List<TeacherLeadCourse> Courses { get; private set; } = [];
+    // The courses are saved inside the teacher's file
+    [JsonInclude]
+    public List<BaseCourse> Courses { get; private set; } = [];
 
-    /// <summary>
-    /// Picks out the courses this teacher is responsible for
-    /// </summary>
-    /// <param name="allCourses">Every course that can have a teacher</param>
-    public void LoadCourses(List<TeacherLeadCourse> allCourses)
+    public void AddCourse(BaseCourse course)
     {
-        Courses.Clear();
-        foreach (var course in allCourses)
+        if (Courses.Any(c => c.Id == course.Id))
         {
-            if (course.TeacherId == Id)
-            {
-                Courses.Add(course);
-            }
+            return; // Already responsible for this course
         }
+        Courses.Add(course);
+    }
+
+    public void RemoveCourse(BaseCourse course)
+    {
+        Courses.RemoveAll(c => c.Id == course.Id);
     }
 
     public override string ToString()

@@ -4,10 +4,8 @@ namespace WestCoastEducation.Models.Person.Staff;
 
 public class EducationLeader : PermanentStaff
 {
-    // Only the teacher ids are saved, so each teacher stays in its own file
+    // The teachers are saved inside the education leader's file
     [JsonInclude]
-    public List<string> TeacherIds { get; private set; } = [];
-
     private List<Teacher> _responsibleTeachers = new List<Teacher>();
 
     [JsonIgnore]
@@ -20,13 +18,11 @@ public class EducationLeader : PermanentStaff
     public void AssignTeacher(Teacher teacher)
     {
         if (IsTeacherAssigned(teacher)) return;
-        TeacherIds.Add(teacher.Id);
         _responsibleTeachers.Add(teacher);
     }
 
     public void RemoveTeacher(Teacher teacher)
     {
-        TeacherIds.Remove(teacher.Id);
         _responsibleTeachers.RemoveAll(t => t.Id == teacher.Id);
     }
 
@@ -37,23 +33,7 @@ public class EducationLeader : PermanentStaff
         return _responsibleTeachers.Where(t => t.LastName.Contains(LastName) && t.FirstName.Contains(FirstName)).ToList();
     }
 
-    /// <summary>
-    /// Picks out the teachers this education leader is responsible for
-    /// </summary>
-    /// <param name="allTeachers">Every saved teacher</param>
-    public void LoadTeachers(List<Teacher> allTeachers)
-    {
-        _responsibleTeachers.Clear();
-        foreach (var teacher in allTeachers)
-        {
-            if (TeacherIds.Contains(teacher.Id))
-            {
-                _responsibleTeachers.Add(teacher);
-            }
-        }
-    }
-
-    private bool IsTeacherAssigned(Teacher teacher) => TeacherIds.Contains(teacher.Id);
+    private bool IsTeacherAssigned(Teacher teacher) => _responsibleTeachers.Any(t => t.Id == teacher.Id);
 
     public override string ToString()
     {

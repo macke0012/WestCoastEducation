@@ -1,24 +1,34 @@
 using WestCoastEducation.Interfaces;
-using WestCoastEducation.Models.Course;
 using WestCoastEducation.Models.Person;
 
 namespace WestCoastEducation.Services;
 
-public class StudentService(IStorageProvider db, CourseService courseService) : BaseService<Student>(db)
+public class StudentService : IService<Student>
 {
-    protected override List<Student> Load() => Db.GetAll<Student>();
+    private IStorageProvider Db;
 
-    protected override void LinkRelated(Student student) =>
-        student.LoadCourses(courseService.GetAll());
-
-    /// <summary>
-    /// Enrolls a student in a course and saves it. Does nothing if they are already enrolled.
-    /// </summary>
-    public void Enroll(Student student, BaseCourse course)
+    public StudentService(IStorageProvider db)
     {
-        if (student.Enroll(course))
+        Db = db;
+    }
+
+    public void Create(Student student) => Db.Save(student);
+
+    public void Update(Student student) => Db.Save(student);
+
+    public void Delete(string id) => Db.Delete(id);
+
+    public List<Student> GetAll() => Db.GetAll<Student>();
+
+    public Student GetSingle(string id)
+    {
+        foreach (var student in GetAll())
         {
-            Update(student);
+            if (student.Id == id)
+            {
+                return student;
+            }
         }
+        throw new KeyNotFoundException($"No student with id {id}");
     }
 }

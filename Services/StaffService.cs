@@ -3,26 +3,39 @@ using WestCoastEducation.Models.Person.Staff;
 
 namespace WestCoastEducation.Services;
 
-public class StaffService(IStorageProvider db, TeacherService teacherService) : BaseService<PermanentStaff>(db)
+public class StaffService : IService<PermanentStaff>
 {
-    // Each staff type is saved in its own folder, so add new types here
-    protected override List<PermanentStaff> Load() =>
-        [.. Db.GetAll<EducationLeader>(), .. Db.GetAll<Administrator>()];
+    private IStorageProvider Db;
 
-    protected override void LinkRelated(PermanentStaff staff)
+    public StaffService(IStorageProvider db)
     {
-        if (staff is EducationLeader leader)
-        {
-            leader.LoadTeachers(teacherService.GetAll());
-        }
+        Db = db;
     }
 
-    /// <summary>
-    /// Makes an education leader responsible for a teacher and saves it
-    /// </summary>
-    public void AssignTeacher(EducationLeader leader, Teacher teacher)
+    public void Create(PermanentStaff staff) => Db.Save(staff);
+
+    public void Update(PermanentStaff staff) => Db.Save(staff);
+
+    public void Delete(string id) => Db.Delete(id);
+
+    // Education leaders and administrators are saved in different folders, so read both
+    public List<PermanentStaff> GetAll()
     {
-        leader.AssignTeacher(teacher);
-        Update(leader);
+        List<PermanentStaff> staff = [];
+        staff.AddRange(Db.GetAll<EducationLeader>());
+        staff.AddRange(Db.GetAll<Administrator>());
+        return staff;
+    }
+
+    public PermanentStaff GetSingle(string id)
+    {
+        foreach (var person in GetAll())
+        {
+            if (person.Id == id)
+            {
+                return person;
+            }
+        }
+        throw new KeyNotFoundException($"No staff with id {id}");
     }
 }
