@@ -1,0 +1,9 @@
+# Build output (recreated on every build)
+bin/
+obj/
+
+# Rider settings
+.idea/
+
+# macOS folder files
+.DS_Store
