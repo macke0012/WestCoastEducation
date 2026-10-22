@@ -1,0 +1,17 @@
+{
+  "location": {
+    "street": "Slottskogsgatan 28",
+    "zipCode": "12345",
+    "town": "Stockholm",
+    "country": "Sweden"
+  },
+  "lectureHall": "Lecture Hall 1",
+  "teacherId": "db6bb3db-2714-4fb0-81ba-4be93f9701e9",
+  "courseNumber": "12345",
+  "title": "Introduction to C#",
+  "startDate": "2026-10-20",
+  "endDate": "2026-11-01",
+  "durationInWeeks": 12,
+  "courseType": "Classroom",
+  "id": "b30c65c5-0c20-491a-8f55-0591ddeb87dc"
+}

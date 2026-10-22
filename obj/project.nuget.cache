@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "iOI1vufbwSo=",
+  "success": true,
+  "projectFilePath": "/Users/macke/Documents/WestCoastEducation/WestCoastEducation2.0.csproj",
+  "expectedPackageFiles": [
+    "/Users/macke/.nuget/packages/microsoft.extensions.dependencyinjection/10.0.13/microsoft.extensions.dependencyinjection.10.0.13.nupkg.sha512",
+    "/Users/macke/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/10.0.13/microsoft.extensions.dependencyinjection.abstractions.10.0.13.nupkg.sha512"
+  ],
+  "logs": []
+}
