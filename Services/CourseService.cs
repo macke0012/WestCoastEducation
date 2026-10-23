@@ -3,53 +3,38 @@ using WestCoastEducation.Models.Course;
 
 namespace WestCoastEducation.Services;
 
-public enum CourseType
-{
-    Remote,
-    Classroom
-}
 public class CourseService : IService<BaseCourse>
 {
-    private IStorageProvider Db { get; set; }
-    private List<RemoteCourse> RemoteCourses { get; set; } = [];
-    private List<ClassroomCourse> ClassroomCourses { get; set; } = [];
-
+    private IStorageProvider Db;
 
     public CourseService(IStorageProvider db)
     {
         Db = db;
-        LoadAll();
     }
 
+    public void Create(BaseCourse course) => Db.Save(course);
 
+    public void Update(BaseCourse course) => Db.Save(course);
 
-    public void LoadAll()
+    public void Delete(string id) => Db.Delete(id);
+
+    public List<BaseCourse> GetAll()
     {
-        RemoteCourses = Db.GetAll<RemoteCourse>();
-        ClassroomCourses = Db.GetAll<ClassroomCourse>();
+        List<BaseCourse> courses = [];
+        courses.AddRange(Db.GetAll<RemoteCourse>());
+        courses.AddRange(Db.GetAll<ClassroomCourse>());
+        return courses;
     }
 
-    public void Create(BaseCourse course)
+    public BaseCourse GetSingle(string id)
     {
-        Db.Save(course);
-        LoadAll();
+        foreach (var course in GetAll())
+        {
+            if (course.Id == id)
+            {
+                return course;
+            }
+        }
+        throw new KeyNotFoundException($"No course with id {id}");
     }
-
-    public void Delete(string id)
-    {
-        Db.Delete(id);
-        LoadAll();
-    }
-
-    public List<BaseCourse> GetAll() => [.. RemoteCourses, .. ClassroomCourses];
-
-    public BaseCourse GetSingle(string id) =>
-        GetAll().FirstOrDefault(c => c.Id == id) ?? throw new KeyNotFoundException($"Course with id {id} not found");
-
-    // Only one kind of course, e.g. GetAll<RemoteCourse>()
-    public List<T> GetAll<T>() where T : BaseCourse => GetAll().OfType<T>().ToList();
-
-    public T GetSingle<T>(string id) where T : BaseCourse => (T)GetSingle(id);
 }
-
-

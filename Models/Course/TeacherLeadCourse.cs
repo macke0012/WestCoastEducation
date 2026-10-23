@@ -1,13 +1,10 @@
-using WestCoastEducation.Interfaces;
-using WestCoastEducation.Models.Person.Staff;
-
 namespace WestCoastEducation.Models.Course;
 
-public class TeacherLeadCourse : BaseCourse
+public abstract class TeacherLeadCourse : BaseCourse
 {
-    public string? TeacherId { get; set; }
+    public string? TeacherId { get; set; } //LärarId så att man ska kunna hitta läraren som ansvarar för kursen.
 
-    public TeacherLeadCourse(string? teacherId)
+    protected TeacherLeadCourse(string? teacherId)
     {
         TeacherId = teacherId;
     }

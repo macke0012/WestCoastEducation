@@ -6,36 +6,35 @@ namespace WestCoastEducation.Services;
 public class StaffService : IService<PermanentStaff>
 {
     private IStorageProvider Db;
-    private List<Administrator> Administrators = [];
 
-    public StaffService(IStorageProvider _db)
+    public StaffService(IStorageProvider db)
     {
-        Db = _db;
-        LoadAll();
+        Db = db;
     }
 
-    // Each staff type is saved in its own folder, so add new types here
-    public void LoadAll()
+    public void Create(PermanentStaff staff) => Db.Save(staff);
+
+    public void Update(PermanentStaff staff) => Db.Save(staff);
+
+    public void Delete(string id) => Db.Delete(id);
+
+    public List<PermanentStaff> GetAll()
     {
-        Administrators = Db.GetAll<Administrator>();
+        List<PermanentStaff> staff = [];
+        staff.AddRange(Db.GetAll<EducationLeader>());
+        staff.AddRange(Db.GetAll<Administrator>());
+        return staff;
     }
 
-    public void Create(PermanentStaff obj)
+    public PermanentStaff GetSingle(string id)
     {
-        Db.Save(obj);
-        LoadAll();
+        foreach (var person in GetAll())
+        {
+            if (person.Id == id)
+            {
+                return person;
+            }
+        }
+        throw new KeyNotFoundException($"No staff with id {id}");
     }
-
-    public void Delete(string id)
-    {
-        Db.Delete(id);
-        LoadAll();
-    }
-
-    public List<PermanentStaff> GetAll() => [.. Administrators];
-
-    public PermanentStaff GetSingle(string id) =>
-        GetAll().FirstOrDefault(s => s.Id == id) ?? throw new KeyNotFoundException($"Staff with id {id} not found");
-
-    public List<T> GetAll<T>() where T : PermanentStaff => GetAll().OfType<T>().ToList();
 }

@@ -6,33 +6,29 @@ namespace WestCoastEducation.Services;
 public class TeacherService : IService<Teacher>
 {
     private IStorageProvider Db;
-    private List<Teacher> Teachers = [];
 
     public TeacherService(IStorageProvider db)
     {
         Db = db;
-        LoadAll();
     }
 
-    public void LoadAll()
+    public void Create(Teacher teacher) => Db.Save(teacher);
+
+    public void Update(Teacher teacher) => Db.Save(teacher); //Kanske lite onödigt men bättre att vara övertydlig än att man ska gissa
+
+    public void Delete(string id) => Db.Delete(id);
+
+    public List<Teacher> GetAll() => Db.GetAll<Teacher>();
+
+    public Teacher GetSingle(string id)
     {
-        Teachers = Db.GetAll<Teacher>();
+        foreach (var teacher in GetAll())
+        {
+            if (teacher.Id == id)
+            {
+                return teacher;
+            }
+        }
+        throw new KeyNotFoundException($"No teacher with id {id}");
     }
-
-    public void Create(Teacher teacher)
-    {
-        Db.Save(teacher);
-        LoadAll();
-    }
-
-    public void Delete(string id)
-    {
-        Db.Delete(id);
-        LoadAll();
-    }
-
-    public List<Teacher> GetAll() => [.. Teachers];
-
-    public Teacher GetSingle(string id) =>
-        Teachers.FirstOrDefault(t => t.Id == id) ?? throw new KeyNotFoundException($"Teacher with id {id} not found");
 }

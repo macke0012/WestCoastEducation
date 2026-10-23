@@ -1,7 +1,9 @@
 using WestCoastEducation.Interfaces;
 
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Unicode;
 
 namespace WestCoastEducation.Repositories;
 
@@ -16,8 +18,8 @@ public class JsonStorageService : IStorageProvider
         WriteIndented = true,
         PropertyNameCaseInsensitive = true,
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        // Saves enums as text ("Remote") and can still read old number values
         Converters = { new JsonStringEnumConverter() },
+        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
     };
 
 
@@ -56,7 +58,6 @@ public class JsonStorageService : IStorageProvider
 
     public List<T> GetAll<T>()
     {
-        // No folder yet just means nothing of this type has been saved
         if (!Directory.Exists(GetDirectory<T>()))
         {
             return [];
@@ -84,7 +85,7 @@ public class JsonStorageService : IStorageProvider
 
         Directory.CreateDirectory(directory);
 
-        var jsonString = JsonSerializer.Serialize(obj,obj.GetType(), _options);
+        var jsonString = JsonSerializer.Serialize(obj, obj.GetType(), _options);
 
         var path = Path.Combine(directory, $"{obj.Id}.json");
 
