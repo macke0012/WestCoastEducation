@@ -1,0 +1,17 @@
+{
+  "location": {
+    "street": "Lärargatan 5",
+    "zipCode": "41102",
+    "town": "Göteborg",
+    "country": "Sweden"
+  },
+  "lectureHall": "Sal B2",
+  "courseType": "Classroom",
+  "teacherId": "375ac3d4-0a8a-49e3-a941-d04cdef81954",
+  "courseNumber": "WCE-202",
+  "title": "Avancerad C#",
+  "startDate": "2027-02-01",
+  "endDate": "2027-04-23",
+  "durationInWeeks": 12,
+  "id": "bf15e8cd-44e0-47c1-b69a-dfc1fa5b2da7"
+}

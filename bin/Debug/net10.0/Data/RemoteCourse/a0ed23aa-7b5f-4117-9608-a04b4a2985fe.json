@@ -1,0 +1,12 @@
+{
+  "platform": "Teams",
+  "meetingLink": "https://teams.example/oop",
+  "courseType": "Remote",
+  "teacherId": "375ac3d4-0a8a-49e3-a941-d04cdef81954",
+  "courseNumber": "WCE-101",
+  "title": "Objektorienterad programmering",
+  "startDate": "2026-11-02",
+  "endDate": "2026-12-18",
+  "durationInWeeks": 7,
+  "id": "a0ed23aa-7b5f-4117-9608-a04b4a2985fe"
+}

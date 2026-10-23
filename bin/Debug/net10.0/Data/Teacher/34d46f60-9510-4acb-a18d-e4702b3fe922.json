@@ -1,0 +1,31 @@
+{
+  "knowledgeArea": "Webbutveckling",
+  "courses": [
+    {
+      "$type": "remote",
+      "platform": "Zoom",
+      "meetingLink": "https://zoom.example/web",
+      "courseType": "Remote",
+      "teacherId": "34d46f60-9510-4acb-a18d-e4702b3fe922",
+      "courseNumber": "WCE-102",
+      "title": "Webbutveckling med React",
+      "startDate": "2027-01-11",
+      "endDate": "2027-03-05",
+      "durationInWeeks": 8,
+      "id": "3ccf53c8-841b-4abc-a33a-67a4a0c86e6d"
+    }
+  ],
+  "firstName": "Sara",
+  "lastName": "Nilsson",
+  "ssn": "19900505-9012",
+  "phoneNumber": "0703334455",
+  "email": "sara.n@konsult.se",
+  "adress": {
+    "street": "Lilla Torget 3",
+    "zipCode": "21134",
+    "town": "Malmö",
+    "country": "Sweden"
+  },
+  "fullName": "Sara Nilsson",
+  "id": "34d46f60-9510-4acb-a18d-e4702b3fe922"
+}

@@ -1,0 +1,17 @@
+{
+  "location": {
+    "street": "Lärargatan 5",
+    "zipCode": "41102",
+    "town": "Göteborg",
+    "country": "Sweden"
+  },
+  "lectureHall": "Sal A1",
+  "courseType": "Classroom",
+  "teacherId": "a212d373-5718-4b89-afd6-d68a56ffadc6",
+  "courseNumber": "WCE-201",
+  "title": "SQL och databasdesign",
+  "startDate": "2026-11-09",
+  "endDate": "2026-12-04",
+  "durationInWeeks": 4,
+  "id": "cccb8103-ea41-47b2-a6a7-69a2d86df61a"
+}
