@@ -3,5 +3,6 @@ namespace WestCoastEducation.Models.Course;
 public enum CourseType
 {
     Remote,
-    Classroom
+    Classroom,
+    SelfPaced
 }

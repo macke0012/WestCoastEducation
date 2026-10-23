@@ -7,7 +7,6 @@ public class Teacher : Person
 {
     public string KnowledgeArea { get; set; } = "";
 
-    // The courses are saved inside the teacher's file
     [JsonInclude]
     public List<BaseCourse> Courses { get; private set; } = [];
 
@@ -15,7 +14,7 @@ public class Teacher : Person
     {
         if (Courses.Any(c => c.Id == course.Id))
         {
-            return; // Already responsible for this course
+            return;
         }
         Courses.Add(course);
     }

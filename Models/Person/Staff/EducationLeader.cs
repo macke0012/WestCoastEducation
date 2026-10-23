@@ -1,20 +1,23 @@
 using System.Text.Json.Serialization;
+using WestCoastEducation.Models.Course;
 
 namespace WestCoastEducation.Models.Person.Staff;
 
 public class EducationLeader : PermanentStaff
 {
-    // The teachers are saved inside the education leader's file
     [JsonInclude]
-    private List<Teacher> _responsibleTeachers = new List<Teacher>();
+    private List<Teacher> _responsibleTeachers = new List<Teacher>(); //Utbildningsledaren ansvarar för en eller flera lärare. 
+
+    [JsonIgnore]
+    public IReadOnlyCollection<TeacherLeadCourse> ResponsibleCourses => _responsibleTeachers //Utbildningsledaren har alla kurser som lärarna ansvarar för.
+        .SelectMany(t => t.Courses)
+        .OfType<TeacherLeadCourse>()
+        .DistinctBy(c => c.Id)
+        .ToList();
 
     [JsonIgnore]
     public IReadOnlyCollection<Teacher> ResponsibleTeachers => _responsibleTeachers;
 
-    /// <summary>
-    /// Assigns a teacher to the education leader only if the teacher is not already assigned to the education leader
-    /// </summary>
-    /// <param name="teacher">The teacher to assign</param>
     public void AssignTeacher(Teacher teacher)
     {
         if (IsTeacherAssigned(teacher)) return;

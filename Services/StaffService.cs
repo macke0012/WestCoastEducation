@@ -18,7 +18,6 @@ public class StaffService : IService<PermanentStaff>
 
     public void Delete(string id) => Db.Delete(id);
 
-    // Education leaders and administrators are saved in different folders, so read both
     public List<PermanentStaff> GetAll()
     {
         List<PermanentStaff> staff = [];

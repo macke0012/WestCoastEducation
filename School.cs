@@ -3,7 +3,6 @@ using WestCoastEducation.Models.Person;
 using WestCoastEducation.Models.Person.Staff;
 using WestCoastEducation.Services;
 
-// The school is the one place the console app talks to. The services it needs come from dependency injection.
 class School
 {
     private CourseService CourseService;

@@ -18,7 +18,6 @@ public class CourseService : IService<BaseCourse>
 
     public void Delete(string id) => Db.Delete(id);
 
-    // Remote and classroom courses are saved in different folders, so read both
     public List<BaseCourse> GetAll()
     {
         List<BaseCourse> courses = [];

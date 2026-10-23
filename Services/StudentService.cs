@@ -14,7 +14,7 @@ public class StudentService : IService<Student>
 
     public void Create(Student student) => Db.Save(student);
 
-    public void Update(Student student) => Db.Save(student);
+    public void Update(Student student) => Db.Save(student); //Kanske lite onödigt men bättre att vara övertydlig än att man ska gissa
 
     public void Delete(string id) => Db.Delete(id);
 

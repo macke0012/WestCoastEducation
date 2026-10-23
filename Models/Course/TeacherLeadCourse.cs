@@ -1,9 +1,8 @@
 namespace WestCoastEducation.Models.Course;
 
-// A course a teacher is responsible for. Only the teacher's id is saved, so the teacher isn't copied into every course file.
 public abstract class TeacherLeadCourse : BaseCourse
 {
-    public string? TeacherId { get; set; }
+    public string? TeacherId { get; set; } //LärarId så att man ska kunna hitta läraren som ansvarar för kursen.
 
     protected TeacherLeadCourse(string? teacherId)
     {

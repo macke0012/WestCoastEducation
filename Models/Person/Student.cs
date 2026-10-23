@@ -5,7 +5,6 @@ namespace WestCoastEducation.Models.Person;
 
 public class Student : Person
 {
-    // The courses are saved inside the student's file
     [JsonInclude]
     public List<BaseCourse> Courses { get; private set; } = [];
 
@@ -13,9 +12,14 @@ public class Student : Person
     {
         if (Courses.Any(c => c.Id == course.Id))
         {
-            return; // Already enrolled
+            return;
         }
         Courses.Add(course);
+    }
+
+    public void Unenroll(BaseCourse course)
+    {
+        Courses.RemoveAll(c => c.Id == course.Id);
     }
 
     public override string ToString()
