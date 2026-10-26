@@ -1,27 +1,31 @@
 using System.Text.Json.Serialization;
-using WestCoastEducation.Models.Course;
+using MongoDB.Bson.Serialization.Attributes;
+using WestCoastEducation.Core.Models.Course;
 
-namespace WestCoastEducation.Models.Person.Staff;
+namespace WestCoastEducation.Core.Models.People.Staff;
 
-public class Teacher : Person
+public class Teacher : BaseStaff
 {
     public string KnowledgeArea { get; set; } = "";
 
     [JsonInclude]
-    public List<BaseCourse> Courses { get; private set; } = [];
+    public List<Course.BaseCourse> Courses { get; private set; } = [];
+    [BsonIgnore]
+    public List<string> CourseIds { get; private set; } = [];
 
-    public void AddCourse(BaseCourse course)
+    public void AddCourse(Course.BaseCourse baseCourse)
     {
-        if (Courses.Any(c => c.Id == course.Id))
+        if (Courses.Any(c => c.Id == baseCourse.Id))
         {
             return;
         }
-        Courses.Add(course);
+        Courses.Add(baseCourse);
+        CourseIds.Add(baseCourse.Id);
     }
 
-    public void RemoveCourse(BaseCourse course)
+    public void RemoveCourse(Course.BaseCourse baseCourse)
     {
-        Courses.RemoveAll(c => c.Id == course.Id);
+        Courses.RemoveAll(c => c.Id == baseCourse.Id);
     }
 
     public override string ToString()

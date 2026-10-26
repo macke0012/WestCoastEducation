@@ -1,10 +1,10 @@
-namespace WestCoastEducation.Interfaces;
+namespace WestCoastEducation.Core.Interfaces;
 
-public interface IService<T>
+public interface IService<T>: IDisposable
 {
-    void Create(T obj);
-    void Update(T obj);
-    void Delete(string id);
-    List<T> GetAll();
-    T GetSingle(string id);
+    Task Create(T obj);
+    Task Update(T obj);
+    Task Delete(T obj);
+    Task<List<T>> GetAll();
+    Task<T> GetSingle(string id);
 }

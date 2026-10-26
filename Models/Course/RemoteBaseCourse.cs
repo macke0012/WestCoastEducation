@@ -1,15 +1,17 @@
-namespace WestCoastEducation.Models.Course;
+using WestCoastEducation.Core.Models.People.Staff;
+
+namespace WestCoastEducation.Core.Models.Course;
 
 public enum Platform { Zoom, Teams, GoogleMeet, Discord }
 
 
-public class RemoteCourse : TeacherLeadCourse
+public class RemoteBaseCourse : TeacherLeadBaseCourse
 {
     public Platform Platform { get; set; }
     public string MeetingLink { get; set; }
     public override CourseType CourseType => CourseType.Remote;
 
-    public RemoteCourse(string teacherId, Platform platform, string meetingLink) : base(teacherId)
+    public RemoteBaseCourse(Platform platform, string meetingLink)
     {
         Platform = platform;
         MeetingLink = meetingLink;

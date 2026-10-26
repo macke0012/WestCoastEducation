@@ -1,14 +1,17 @@
-namespace WestCoastEducation;
+using WestCoastEducation.Core.Repositories;
+namespace WestCoastEducation.Core;
 
 static class DataLoader
 {
     public static void LoadAndPrint(School school)
     {
-        PrintAll("Courses", school.ListCourses());
-        PrintAll("Teachers", school.ListTeachers());
-        PrintAll("Students", school.ListStudents());
-        PrintAll("Staff", school.ListStaff());
+        PrintAll("Courses", Task.Run(school.GetAllCourses).Result);
+        PrintAll("Teachers", Task.Run(school.GetAllTeachers).Result);
+        PrintAll("Students", Task.Run(school.GetAllStudents).Result);
+        PrintAll("Staff", Task.Run(school.GetAllStaff).Result);
     }
+
+    
 
     //QOL Metod
     private static void PrintAll<T>(string heading, List<T> items)

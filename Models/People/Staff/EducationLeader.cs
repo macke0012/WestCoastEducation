@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
-using WestCoastEducation.Models.Course;
+using WestCoastEducation.Core.Models.Course;
 
-namespace WestCoastEducation.Models.Person.Staff;
+namespace WestCoastEducation.Core.Models.People.Staff;
 
 public class EducationLeader : PermanentStaff
 {
@@ -9,9 +9,9 @@ public class EducationLeader : PermanentStaff
     private List<Teacher> _responsibleTeachers = new List<Teacher>(); //Utbildningsledaren ansvarar för en eller flera lärare. 
 
     [JsonIgnore]
-    public IReadOnlyCollection<TeacherLeadCourse> ResponsibleCourses => _responsibleTeachers //Utbildningsledaren har alla kurser som lärarna ansvarar för.
+    public IReadOnlyCollection<TeacherLeadBaseCourse> ResponsibleCourses => _responsibleTeachers //Utbildningsledaren har alla kurser som lärarna ansvarar för.
         .SelectMany(t => t.Courses)
-        .OfType<TeacherLeadCourse>()
+        .OfType<TeacherLeadBaseCourse>()
         .DistinctBy(c => c.Id)
         .ToList();
 

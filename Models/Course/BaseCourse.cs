@@ -1,9 +1,13 @@
 using System.Text.Json.Serialization;
+using MongoDB.Bson.Serialization.Attributes;
+using WestCoastEducation.Core.Interfaces;
 
-namespace WestCoastEducation.Models.Course;
+namespace WestCoastEducation.Core.Models.Course;
 
-[JsonDerivedType(typeof(RemoteCourse), "remote")]
-[JsonDerivedType(typeof(ClassroomCourse), "classroom")] //Detta så att json serialization ska veta vilken typ av kurs det är när man deserialiserar.
+[JsonDerivedType(typeof(RemoteBaseCourse), "remote")]
+[JsonDerivedType(typeof(ClassroomBaseCourse), "classroom")]
+[BsonKnownTypes(typeof(RemoteBaseCourse), typeof(ClassroomBaseCourse))]//Detta så att json serialization ska veta vilken typ av kurs det är när man deserialiserar.
+
 public abstract class BaseCourse : IStorageObject
 {
     public required string CourseNumber { get; set; }

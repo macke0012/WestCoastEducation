@@ -1,40 +1,41 @@
-using WestCoastEducation.Interfaces;
-using WestCoastEducation.Models.Person.Staff;
+using MongoDB.Driver;
+using WestCoastEducation.Core.Interfaces;
+using WestCoastEducation.Core.Models.People.Staff;
 
-namespace WestCoastEducation.Services;
+namespace WestCoastEducation.Core.Services;
 
-public class StaffService : IService<PermanentStaff>
+public class StaffService : BaseService<BaseStaff>
 {
-    private IStorageProvider Db;
+    public List<BaseStaff> Staff { get; private set; } = [];
+    public List<Teacher> Teachers => Staff.OfType<Teacher>().ToList();
+    public List<Administrator> Administrators => Staff.OfType<Administrator>().ToList();
+    public List<EducationLeader> EducationLeaders => Staff.OfType<EducationLeader>().ToList();
 
-    public StaffService(IStorageProvider db)
+
+    public StaffService(IStorageProvider db) : base(db)
     {
-        Db = db;
-    }
+        Staff = Task.Run(db.GetAll<BaseStaff>).Result;
+        
+        if (_cursor is null) return;
 
-    public void Create(PermanentStaff staff) => Db.Save(staff);
-
-    public void Update(PermanentStaff staff) => Db.Save(staff);
-
-    public void Delete(string id) => Db.Delete(id);
-
-    public List<PermanentStaff> GetAll()
-    {
-        List<PermanentStaff> staff = [];
-        staff.AddRange(Db.GetAll<EducationLeader>());
-        staff.AddRange(Db.GetAll<Administrator>());
-        return staff;
-    }
-
-    public PermanentStaff GetSingle(string id)
-    {
-        foreach (var person in GetAll())
+        _cursor.ForEachAsync(change =>
         {
-            if (person.Id == id)
+            
+            if (change.OperationType == ChangeStreamOperationType.Delete)
             {
-                return person;
+                Staff.RemoveAll(s => s.Id == change.FullDocument.Id);
+                return;
             }
-        }
-        throw new KeyNotFoundException($"No staff with id {id}");
+            Staff.RemoveAll(s => s.Id == change.FullDocument.Id);
+            Staff.Add(change.FullDocument);
+        });
     }
+    
+    
+
+    
+   
+
+
+    
 }

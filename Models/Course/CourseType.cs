@@ -1,4 +1,4 @@
-namespace WestCoastEducation.Models.Course;
+namespace WestCoastEducation.Core.Models.Course;
 
 public enum CourseType
 {

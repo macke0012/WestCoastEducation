@@ -1,4 +1,7 @@
-namespace WestCoastEducation.Models.Person;
+using System.Text.Json.Serialization;
+using WestCoastEducation.Core.Interfaces;
+
+namespace WestCoastEducation.Core.Models.People;
 
 public abstract class Person : IStorageObject
 {
@@ -8,6 +11,7 @@ public abstract class Person : IStorageObject
     public required string PhoneNumber { get; set; }
     public required string Email { get; set; }
     public required Adress Adress { get; set; }
+    [JsonIgnore]
     public string FullName => $"{FirstName} {LastName}";
 
     public string Id { get; init; } = Guid.NewGuid().ToString();

@@ -1,5 +1,6 @@
-{
+[{
   "employmentDate": "2018-03-01T00:00:00",
+  "role": "Administrator",
   "firstName": "Maria",
   "lastName": "Lund",
   "ssn": "19850909-9999",
@@ -11,6 +12,5 @@
     "town": "Göteborg",
     "country": "Sweden"
   },
-  "fullName": "Maria Lund",
-  "id": "61150bfe-9cfb-4daf-94d0-d9028cb9771a"
-}
+  "id": "4dd58ace-5f97-4502-a06d-cc7c179a8f86"
+}]

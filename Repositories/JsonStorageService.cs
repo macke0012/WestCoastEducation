@@ -1,11 +1,11 @@
-using WestCoastEducation.Interfaces;
+using WestCoastEducation.Core.Interfaces;
 
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Unicode;
 
-namespace WestCoastEducation.Repositories;
+namespace WestCoastEducation.Core.Repositories;
 
 
 
@@ -23,14 +23,14 @@ public class JsonStorageService : IStorageProvider
     };
 
 
-    public T? Get<T>(string id)
+    public Task<T?> Get<T>(string id)
     {
         try
         {
             string path = GetFilePath<T>(id);
             string jsonString = File.ReadAllText(path);
 
-            return JsonSerializer.Deserialize<T>(jsonString, _options);
+            return Task.FromResult(JsonSerializer.Deserialize<T>(jsonString, _options));
         }
         catch (DirectoryNotFoundException ex)
         {
@@ -44,7 +44,7 @@ public class JsonStorageService : IStorageProvider
         }
     }
 
-    public void Delete(string id)
+    public Task Delete<T>(string id)
     {
         var files = Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, "Data"), "*.json", SearchOption.AllDirectories);
         foreach (var file in files)
@@ -54,13 +54,14 @@ public class JsonStorageService : IStorageProvider
                 File.Delete(file);
             }
         }
+        return Task.CompletedTask;
     }
 
-    public List<T> GetAll<T>()
+    public Task<List<T>> GetAll<T>()
     {
         if (!Directory.Exists(GetDirectory<T>()))
         {
-            return [];
+            return Task.FromResult(new List<T>());
         }
 
         string[] files = Directory.GetFiles(GetDirectory<T>(), "*.json");
@@ -74,12 +75,16 @@ public class JsonStorageService : IStorageProvider
             entries.Add(parsedEntry!);
         }
 
-        return entries;
+        return Task.FromResult(entries);
+    }
+
+    public Task Put<T>(T obj) where T : IStorageObject
+    {
+        throw new NotImplementedException();
     }
 
 
-
-    public void Save<T>(T obj) where T : IStorageObject
+    public Task Post<T>(T obj) where T : IStorageObject
     {
         var directory = Path.Combine(Environment.CurrentDirectory, "Data", obj.GetType().Name);
 
@@ -90,6 +95,8 @@ public class JsonStorageService : IStorageProvider
         var path = Path.Combine(directory, $"{obj.Id}.json");
 
         File.WriteAllText(path, jsonString.Trim());
+        Console.WriteLine($"Saved {obj.GetType().Name} with ID {obj.Id} to {path}");
+        return Task.CompletedTask;
     }
     private string GetFilePath<T>(string id) => $"{Environment.CurrentDirectory}/Data/{typeof(T).Name}/{id}.json";
     private string GetDirectory<T>() => $"{Environment.CurrentDirectory}/Data/{typeof(T).Name}";

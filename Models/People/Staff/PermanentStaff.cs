@@ -1,12 +1,14 @@
 using System.Text.Json.Serialization;
+using MongoDB.Bson.Serialization.Attributes;
 
-namespace WestCoastEducation.Models.Person.Staff;
+namespace WestCoastEducation.Core.Models.People.Staff;
 
-public abstract class PermanentStaff : Person
+public abstract class PermanentStaff : BaseStaff
 {
     public required DateTime EmploymentDate { get; set; }
+    public string Role => GetType().Name;
 
-    [JsonIgnore]
+    [BsonIgnore]
     public TimeSpan EmploymentDuration => DateTime.Now - EmploymentDate;
 
     public override string ToString() =>

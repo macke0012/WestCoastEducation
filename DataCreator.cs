@@ -1,12 +1,13 @@
-using WestCoastEducation.Models;
-using WestCoastEducation.Models.Course;
-using WestCoastEducation.Models.Person;
-using WestCoastEducation.Models.Person.Staff;
+using WestCoastEducation.Core.Models;
+using WestCoastEducation.Core.Models.Course;
+using WestCoastEducation.Core.Models.People;
+using WestCoastEducation.Core.Models.People.Staff;
 
-namespace WestCoastEducation;
+
+namespace WestCoastEducation.Core;
 
 //Denna klass och DataLoader är AI-genererad då jag inte orkade komma på flera olika exempel på personer.
-static class DataCreator
+public static class DataCreator
 {
     public static void CreateAndSave(School school)
     {
@@ -33,7 +34,7 @@ static class DataCreator
         school.AddTeacher(anna);
         school.AddTeacher(erik);
 
-        var oop = new RemoteCourse(anna.Id, Platform.Teams, "https://teams.microsoft.com/wce-oop")
+        var oop = new RemoteBaseCourse(Platform.Teams, "https://teams.microsoft.com/wce-oop")
         {
             CourseNumber = "WCE-101",
             Title = "Objektorienterad programmering",
@@ -41,7 +42,8 @@ static class DataCreator
             EndDate = new DateOnly(2026, 12, 18),
 
         };
-        var sql = new ClassroomCourse(erik.Id, CreateAdress("Lärargatan 5", "41102", "Göteborg"), "Sal A1")
+        oop.AssignTeacher(anna);
+        var sql = new ClassroomBaseCourse(CreateAdress("Lärargatan 5", "41102", "Göteborg"), "Sal A1")
         {
             CourseNumber = "WCE-201",
             Title = "SQL och databasdesign",
@@ -49,6 +51,7 @@ static class DataCreator
             EndDate = new DateOnly(2026, 12, 4),
 
         };
+        sql.AssignTeacher(erik);
         school.AddCourse(oop);
         school.AddCourse(sql);
         school.AssignCourseToTeacher(anna, oop);

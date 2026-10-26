@@ -1,9 +1,10 @@
-namespace WestCoastEducation.Interfaces;
+namespace WestCoastEducation.Core.Interfaces;
 
 public interface IStorageProvider
 {
-    void Save<T>(T obj) where T : IStorageObject;
-    T? Get<T>(string id);
-    void Delete(string id);
-    List<T> GetAll<T>();
+    Task Post<T>(T obj) where T : IStorageObject;
+    Task<T?> Get<T>(string id);
+    Task Delete<T>(string id);
+    Task<List<T>> GetAll<T>();
+    Task Put<T>(T obj) where T : IStorageObject;
 }

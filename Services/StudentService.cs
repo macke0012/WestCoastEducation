@@ -1,34 +1,31 @@
-using WestCoastEducation.Interfaces;
-using WestCoastEducation.Models.Person;
+using MongoDB.Driver;
+using WestCoastEducation.Core.Interfaces;
+using WestCoastEducation.Core.Models.People;
 
-namespace WestCoastEducation.Services;
 
-public class StudentService : IService<Student>
+namespace WestCoastEducation.Core.Services;
+
+public class StudentService : BaseService<Student>
 {
-    private IStorageProvider Db;
-
-    public StudentService(IStorageProvider db)
+    public List<Student> Students { get; private set; } = [];
+    public StudentService(IStorageProvider db) : base(db)
     {
-        Db = db;
-    }
+        Students = Task.Run(db.GetAll<Student>).Result;
+        if (_cursor is null) return;
 
-    public void Create(Student student) => Db.Save(student);
-
-    public void Update(Student student) => Db.Save(student); //Kanske lite onödigt men bättre att vara övertydlig än att man ska gissa
-
-    public void Delete(string id) => Db.Delete(id);
-
-    public List<Student> GetAll() => Db.GetAll<Student>();
-
-    public Student GetSingle(string id)
-    {
-        foreach (var student in GetAll())
+        _cursor.ForEachAsync(change =>
         {
-            if (student.Id == id)
+            if (change.OperationType == ChangeStreamOperationType.Delete)
             {
-                return student;
+                Students.RemoveAll(s => s.Id == change.FullDocument.Id);
+                return;
             }
-        }
-        throw new KeyNotFoundException($"No student with id {id}");
+            Students.RemoveAll(s => s.Id == change.FullDocument.Id);
+            Students.Add(change.FullDocument);
+        });
+        
     }
+
+    
+
 }

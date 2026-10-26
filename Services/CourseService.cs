@@ -1,40 +1,45 @@
-using WestCoastEducation.Interfaces;
-using WestCoastEducation.Models.Course;
+using MongoDB.Driver;
+using WestCoastEducation.Core.Interfaces;
+using WestCoastEducation.Core.Models.Course;
+using WestCoastEducation.Core.Repositories;
 
-namespace WestCoastEducation.Services;
+namespace WestCoastEducation.Core.Services;
 
-public class CourseService : IService<BaseCourse>
+public class CourseService : BaseService<BaseCourse> 
 {
-    private IStorageProvider Db;
+    public List<BaseCourse> Courses { get; private set; } = [];
+    public List<RemoteBaseCourse> RemoteCourses => Courses.OfType<RemoteBaseCourse>().ToList();
+    public List<ClassroomBaseCourse> ClassroomCourses => Courses.OfType<ClassroomBaseCourse>().ToList();
 
-    public CourseService(IStorageProvider db)
+    public CourseService(IStorageProvider db) : base(db)
     {
-        Db = db;
-    }
+        Courses = Task.Run(db.GetAll<BaseCourse>).Result;
 
-    public void Create(BaseCourse course) => Db.Save(course);
+        if (_cursor is null) return;
 
-    public void Update(BaseCourse course) => Db.Save(course);
-
-    public void Delete(string id) => Db.Delete(id);
-
-    public List<BaseCourse> GetAll()
-    {
-        List<BaseCourse> courses = [];
-        courses.AddRange(Db.GetAll<RemoteCourse>());
-        courses.AddRange(Db.GetAll<ClassroomCourse>());
-        return courses;
-    }
-
-    public BaseCourse GetSingle(string id)
-    {
-        foreach (var course in GetAll())
+        _cursor.ForEachAsync(change =>
         {
-            if (course.Id == id)
+            if (change.OperationType == ChangeStreamOperationType.Delete)
             {
-                return course;
+                Courses.RemoveAll(c => c.Id == change.FullDocument.Id);
+                return;
             }
-        }
-        throw new KeyNotFoundException($"No course with id {id}");
+            Console.WriteLine(change.FullDocument);
+            Courses.RemoveAll(c => c.Id == change.FullDocument.Id);
+            Courses.Add(change.FullDocument);
+            
+        });
+
     }
+
+
+
+
+
+
+
+
+
+
+
 }

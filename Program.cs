@@ -1,6 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using WestCoastEducation.Core.Models;
+using WestCoastEducation.Core.Models.Course;
+using WestCoastEducation.Core.Models.People;
 
-namespace WestCoastEducation;
+namespace WestCoastEducation.Core;
 
 class Program
 {
@@ -12,11 +15,10 @@ class Program
 
         var school = provider.GetRequiredService<School>();
 
-        if (school.ListCourses().Count == 0)
-        {
-            DataCreator.CreateAndSave(school);
-        }
+       
 
-        DataLoader.LoadAndPrint(school);
+
+
+
     }
 }

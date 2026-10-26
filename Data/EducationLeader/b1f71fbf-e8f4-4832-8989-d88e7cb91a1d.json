@@ -1,20 +1,16 @@
-{
+[{
   "_responsibleTeachers": [
     {
       "knowledgeArea": "C# och .NET",
       "courses": [
         {
-          "$type": "remote",
-          "platform": "Teams",
-          "meetingLink": "https://teams.microsoft.com/wce-oop",
-          "courseType": "Remote",
-          "teacherId": "c73c78c3-ef03-45a7-84d9-d3df37aa9798",
           "courseNumber": "WCE-101",
           "title": "Objektorienterad programmering",
           "startDate": "2026-11-02",
           "endDate": "2026-12-18",
-          "durationInWeeks": 7,
-          "id": "83860eb7-4076-4bdb-87e4-e06a1099e9be"
+          "durationInWeeks": 6,
+          "courseType": "Remote",
+          "id": "941e8f23-d0e6-4b04-b272-6ee6da52534f"
         }
       ],
       "firstName": "Anna",
@@ -28,29 +24,19 @@
         "town": "Göteborg",
         "country": "Sweden"
       },
-      "fullName": "Anna Svensson",
-      "id": "c73c78c3-ef03-45a7-84d9-d3df37aa9798"
+      "id": "916abdd2-eeca-4916-9304-2ee8b85098b7"
     },
     {
       "knowledgeArea": "Databaser",
       "courses": [
         {
-          "$type": "classroom",
-          "location": {
-            "street": "Lärargatan 5",
-            "zipCode": "41102",
-            "town": "Göteborg",
-            "country": "Sweden"
-          },
-          "lectureHall": "Sal A1",
-          "courseType": "Classroom",
-          "teacherId": "5fc128c9-9a38-4644-a988-2e0d88ee61e7",
           "courseNumber": "WCE-201",
           "title": "SQL och databasdesign",
           "startDate": "2026-11-09",
           "endDate": "2026-12-04",
-          "durationInWeeks": 4,
-          "id": "7e757d1c-f90d-4610-832e-95d25054daef"
+          "durationInWeeks": 3,
+          "courseType": "Classroom",
+          "id": "838561d2-5e4e-4a07-aa57-6a1d48a6194d"
         }
       ],
       "firstName": "Erik",
@@ -64,11 +50,11 @@
         "town": "Stockholm",
         "country": "Sweden"
       },
-      "fullName": "Erik Lindqvist",
-      "id": "5fc128c9-9a38-4644-a988-2e0d88ee61e7"
+      "id": "7bf0426c-3f63-437e-a1bd-97252d7ff04d"
     }
   ],
   "employmentDate": "2015-08-17T00:00:00",
+  "role": "EducationLeader",
   "firstName": "Karin",
   "lastName": "Åkesson",
   "ssn": "19700707-7777",
@@ -80,6 +66,5 @@
     "town": "Göteborg",
     "country": "Sweden"
   },
-  "fullName": "Karin Åkesson",
-  "id": "ef4cff9f-75bf-4fd1-b16a-909744109812"
-}
+  "id": "b1f71fbf-e8f4-4832-8989-d88e7cb91a1d"
+}]
