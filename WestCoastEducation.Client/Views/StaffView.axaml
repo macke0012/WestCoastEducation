@@ -1,0 +1,62 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:WestCoastEducation.Client.ViewModels"
+             xmlns:models="clr-namespace:WestCoastEducation.Core.Models;assembly=WestCoastEducationCore"
+             xmlns:staff="clr-namespace:WestCoastEducation.Core.Models.People.Staff;assembly=WestCoastEducationCore"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="WestCoastEducation.Client.Views.StaffView"
+             x:DataType="viewModels:StaffViewModel">
+
+    <UserControl.Styles>
+        <!-- Same horizontal padding on rows and header so the columns line up -->
+        <Style Selector="ListBoxItem">
+            <Setter Property="Padding" Value="8,4" />
+        </Style>
+        <Style Selector="Grid.header > TextBlock">
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+    </UserControl.Styles>
+
+    <TabControl Margin="5">
+        <TabItem Header="Permanent Staff">
+            <Grid RowDefinitions="Auto,*">
+                <Grid Classes="header" ColumnDefinitions="*,*,*,*,*,*" Margin="8,4">
+                    <TextBlock Text="First name" />
+                    <TextBlock Grid.Column="1" Text="Last name" />
+                    <TextBlock Grid.Column="2" Text="SSN" />
+                    <TextBlock Grid.Column="3" Text="Email" />
+                    <TextBlock Grid.Column="4" Text="Phone" />
+                    <TextBlock Grid.Column="5" Text="Employment date" />
+                </Grid>
+
+                <ListBox Grid.Row="1" ItemsSource="{Binding PermanentStaff}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="staff:PermanentStaff">
+                            <Grid ColumnDefinitions="*,*,*,*,*,*">
+                                <TextBlock Text="{Binding FirstName}" />
+                                <TextBlock Grid.Column="1" Text="{Binding LastName}" />
+                                <TextBlock Grid.Column="2" Text="{Binding SSN}" />
+                                <TextBlock Grid.Column="3" Text="{Binding Email}" />
+                                <TextBlock Grid.Column="4" Text="{Binding PhoneNumber}" />
+                                <TextBlock Grid.Column="5"
+                                           Text="{Binding EmploymentDate , StringFormat='{}{0:yyyy-MM-dd}'}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="Teachers">
+            <ListBox ItemsSource="{Binding Teachers}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="staff:Teacher">
+                        <TextBlock Text="{Binding FullName}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </TabItem>
+    </TabControl>
+</UserControl>
