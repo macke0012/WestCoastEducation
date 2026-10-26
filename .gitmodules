@@ -1,0 +1,3 @@
+[submodule "WestCoastEducation"]
+	path = WestCoastEducation
+	url = git@github.com:macke0012/WestCoastEducation.git
