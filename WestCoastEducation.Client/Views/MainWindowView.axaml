@@ -19,8 +19,7 @@
     
     
 
-<StackPanel>
-    
+<StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
     <Grid ColumnDefinitions="Auto, *">
 
         <StackPanel Background="{DynamicResource Surface}" VerticalAlignment="Stretch">

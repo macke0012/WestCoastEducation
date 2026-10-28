@@ -4,6 +4,11 @@ public enum PageViewsEnum
 {
     HOME,
     STAFF,
-    STUDENTS,
-    COURSES
+    STUDENT,
+    COURSES,
+    ADDCOURSE,
+    EDITCOURSE,
+    ADDPERSON,
+    EDITPERSON,
+    
 }

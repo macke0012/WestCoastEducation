@@ -1,9 +1,10 @@
+using System.ComponentModel;
 using System.Text.Json.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
 using WestCoastEducation.Core.Models.Course;
 
 namespace WestCoastEducation.Core.Models.People.Staff;
-
+[DisplayName("Lärare")]
 public class Teacher : BaseStaff
 {
     public string KnowledgeArea { get; set; } = "";

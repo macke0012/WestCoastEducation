@@ -31,8 +31,8 @@ public static class DataCreator
             Adress = CreateAdress("Kungsgatan 12", "11143", "Stockholm"),
             KnowledgeArea = "Databaser"
         };
-        school.AddTeacher(anna);
-        school.AddTeacher(erik);
+        school.AddStaff(anna);
+        school.AddStaff(erik);
 
         var oop = new RemoteBaseCourse(Platform.Teams, "https://teams.microsoft.com/wce-oop")
         {
@@ -91,7 +91,7 @@ public static class DataCreator
             Adress = CreateAdress("Avenyn 10", "41136", "Göteborg"),
             EmploymentDate = new DateTime(2015, 8, 17)
         };
-        school.AddEducationLeader(karin);
+        school.AddStaff(karin);
         school.AssignTeacherToLeader(karin, anna);
         school.AssignTeacherToLeader(karin, erik);
 
@@ -105,7 +105,7 @@ public static class DataCreator
             Adress = CreateAdress("Hamngatan 1", "41106", "Göteborg"),
             EmploymentDate = new DateTime(2018, 3, 1)
         };
-        school.AddAdministrator(maria);
+        school.AddStaff(maria);
     }
 
     private static Adress CreateAdress(string street, string zipCode, string town)

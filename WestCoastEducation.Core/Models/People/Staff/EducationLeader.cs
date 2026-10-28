@@ -1,8 +1,9 @@
+using System.ComponentModel;
 using System.Text.Json.Serialization;
 using WestCoastEducation.Core.Models.Course;
 
 namespace WestCoastEducation.Core.Models.People.Staff;
-
+[DisplayName("Utbildningsledare")]
 public class EducationLeader : PermanentStaff
 {
     [JsonInclude]

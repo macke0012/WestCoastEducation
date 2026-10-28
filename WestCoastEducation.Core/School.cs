@@ -1,3 +1,4 @@
+using WestCoastEducation.Core.Interfaces;
 using WestCoastEducation.Core.Models.Course;
 using WestCoastEducation.Core.Models.People;
 using WestCoastEducation.Core.Models.People.Staff;
@@ -19,10 +20,31 @@ public class School
     }
 
     public void AddCourse(BaseCourse baseCourse) => Task.Run(() => CourseService.Create(baseCourse)).Wait();
-    public void AddTeacher(Teacher teacher) => Task.Run(() => StaffService.Create(teacher)).Wait();
+    public void AddStaff(BaseStaff staff) => Task.Run(() => StaffService.Create(staff)).Wait();
     public void AddStudent(Student student) => Task.Run(() => StudentService.Create(student)).Wait();
-    public void AddEducationLeader(EducationLeader leader) => Task.Run(() => StaffService.Create(leader)).Wait();
-    public void AddAdministrator(Administrator administrator) => Task.Run(() => StaffService.Create(administrator)).Wait();
+
+    public async Task<IStorageObject?> GetObject<T>(string id)
+    {
+        IStorageObject? obj = StaffService.Staff.FirstOrDefault(s => s.Id == id);
+        if (obj is not null) return obj;
+        obj = await StudentService.GetSingle(id);
+        if (obj is not null) return obj;
+        obj = await CourseService.GetSingle(id);
+        if (obj is not null) return obj;
+        return null;
+
+
+
+    }
+
+    public async Task UpdatePerson(Person person)
+    {
+        if(person is BaseStaff staff) await StaffService.Update(staff);
+        else if(person is Student student) await StudentService.Update(student);
+        else throw new NotSupportedException($"Person type {person.GetType().Name} is not supported.");
+    }
+    
+    
 
     public async Task<List<BaseCourse>> GetAllCourses() => await CourseService.GetAll();
     public async Task<List<Teacher>> GetAllTeachers() => StaffService.Teachers;

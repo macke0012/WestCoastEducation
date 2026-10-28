@@ -18,38 +18,39 @@
             <Setter Property="FontWeight" Value="SemiBold" />
         </Style>
     </UserControl.Styles>
-
-    <TabControl Margin="5">
+    <DockPanel Margin="5">
+        <Button DockPanel.Dock="Top" HorizontalAlignment="Right" Margin="0,0,0,5"
+                Content="Lägg till" Command="{Binding $parent[Window].((viewModels:MainWindowViewModel)DataContext).NavigateToAddPersonPageCommand}" />
+    <TabControl Margin="5"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                >
+      
         <TabItem Header="Permanent Staff">
-            <Grid RowDefinitions="Auto,*">
-                <Grid Classes="header" ColumnDefinitions="*,*,*,*,*,*" Margin="8,4">
-                    <TextBlock Text="First name" />
-                    <TextBlock Grid.Column="1" Text="Last name" />
-                    <TextBlock Grid.Column="2" Text="SSN" />
-                    <TextBlock Grid.Column="3" Text="Email" />
-                    <TextBlock Grid.Column="4" Text="Phone" />
-                    <TextBlock Grid.Column="5" Text="Employment date" />
-                </Grid>
-
-                <ListBox Grid.Row="1" ItemsSource="{Binding PermanentStaff}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate DataType="staff:PermanentStaff">
-                            <Grid ColumnDefinitions="*,*,*,*,*,*">
-                                <TextBlock Text="{Binding FirstName}" />
-                                <TextBlock Grid.Column="1" Text="{Binding LastName}" />
-                                <TextBlock Grid.Column="2" Text="{Binding SSN}" />
-                                <TextBlock Grid.Column="3" Text="{Binding Email}" />
-                                <TextBlock Grid.Column="4" Text="{Binding PhoneNumber}" />
-                                <TextBlock Grid.Column="5"
-                                           Text="{Binding EmploymentDate , StringFormat='{}{0:yyyy-MM-dd}'}" />
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </Grid>
+            <TableView ItemsSource="{Binding PermanentStaff}"
+                       SelectedItem="{Binding SelectedObject}"
+                       
+                       >
+                <TableView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Redigera" Command="{Binding EditObjectCommand}" CommandParameter="{Binding SelectedObject}" />
+                    </ContextMenu>
+                </TableView.ContextMenu>
+                
+                <TableView.Columns>
+                    <TableViewColumn Header="Förnamn" Binding="{Binding FirstName}" />
+                    <TableViewColumn Header="Efternamn" Binding="{Binding LastName}" />
+                    <TableViewColumn Header="Telefon" Binding="{Binding PhoneNumber}" />
+                    <TableViewColumn Header="Mail" Binding="{Binding Email}" />
+                    <TableViewColumn Header="Personnummer" Binding="{Binding SSN}" />
+                    <TableViewColumn Header="Roll" Binding="{Binding Role}" />
+                    <TableViewColumn Header="Adress" Binding="{Binding Adress}" />
+                </TableView.Columns>
+            </TableView>
         </TabItem>
 
         <TabItem Header="Teachers">
+            
             <ListBox ItemsSource="{Binding Teachers}">
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="staff:Teacher">
@@ -59,4 +60,5 @@
             </ListBox>
         </TabItem>
     </TabControl>
+</DockPanel>
 </UserControl>

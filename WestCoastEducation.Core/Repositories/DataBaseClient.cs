@@ -54,6 +54,8 @@ public class DataBaseClient : IStorageProvider
 
     public async Task Put<T>(T obj) where T : IStorageObject
     {
+        Console.WriteLine(obj.Id);
+        Console.WriteLine(typeof(T).Name.ToLower());
         var result = await Collection<T>().ReplaceOneAsync(ById<T>(obj.Id), obj);
         Console.WriteLine($"Matched: {result.MatchedCount}, Modified: {result.ModifiedCount}");
     }

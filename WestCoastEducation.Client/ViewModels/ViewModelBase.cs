@@ -1,8 +1,24 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using WestCoastEducation.Client.Messages;
+using WestCoastEducation.Core.Interfaces;
+using WestCoastEducation.Core.Models.People.Staff;
 
 namespace WestCoastEducation.Client.ViewModels;
 
-public class ViewModelBase : ObservableObject
+public partial class ViewModelBase : ObservableObject
 {
+    [ObservableProperty] public partial string PageTitle { get; set; } = ""; 
+    [ObservableProperty] public partial IStorageObject? SelectedObject { get; set; } = null;
     
+    [RelayCommand]
+    void SetActiveObject(BaseStaff obj) => SelectedObject = obj;
+
+    [RelayCommand]
+    virtual public void EditObject(IStorageObject obj)
+    {
+        WeakReferenceMessenger.Default.Send(new EditObjectMessage(obj));
+    }
 }

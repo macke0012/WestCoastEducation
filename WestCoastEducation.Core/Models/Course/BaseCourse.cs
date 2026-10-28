@@ -18,7 +18,7 @@ public abstract class BaseCourse : IStorageObject
 
     public abstract CourseType CourseType { get; }
 
-    public string Id { get; init; } = Guid.NewGuid().ToString();
+    public string Id { get; } = Guid.NewGuid().ToString();
 
     public override string ToString() =>
         $"Course Number: {CourseNumber}\nTitle: {Title}\nType: {CourseType}\nDates: {StartDate:yyyy-MM-dd} - {EndDate:yyyy-MM-dd} ({DurationInWeeks} weeks)";
